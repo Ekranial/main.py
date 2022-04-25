@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page_border">
+    <h1>SC - делись кодом!</h1>
+    <h2>Главная страница сайта</h2>
+    <div class = "alert alert-secondary" style="margin-left: 20px; margin-bottom: 0px; margin-top: 20px; !important;">
+            <p>Здесь вы можете легко делиться кодом с другими.</p>
+            <p>Все что от вас требуется - зарегистрироваться.</p>
+            <p>Также присуствует система рейтинга учатсников.</p>
+            <p>Форматирование хромает, поэтому используйте Ctrl + Alt + L</p>
+            <p>Программируйте вместе!</p>
+    </div>
+    <div style="margin-top: 40px;">
+        <h4>Пример:</h4>
+        <div class="shadow p-3 mb-5 bg-light rounded">
+            <h2>Новое начало</h2>
+            <p>print("Hello World!")</p>
+            <div class="badge badge-info">Автор -> Admin</div>
+            <div class="badge badge-info">Дата -> 25.04.2022</div>
+        </div>
+    </div>
+</div>
+{% endblock %}

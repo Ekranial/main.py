@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Профиль пользователя</h1>
+<div class="alert alert-secondary" style="margin-left: 20px; margin-bottom: 0px; margin-top: 20px; !important;">
+    <div class="badge badge-info" style="margin-top: 20px">Аватарка</div>
+    <div style="margin-top: 0px">
+    <br><img src=/static/img/smile.png class="round_office"
+         align="center" width="50" height="50"/></br></div>
+    <div class="badge badge-info" style="margin-top: 20px">Ник -> {{user.name}}</div></br>
+    <div class="badge badge-info" style="margin-top: 20px">О себе -> {{user.about}}</div></br>
+    <div class="badge badge-info" style="margin-top: 20px">E-mail -> {{user.email}}</div>
+</div>
+{% endblock %}

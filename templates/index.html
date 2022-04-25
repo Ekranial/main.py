@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Лента</h1>
+{% for item in news %}
+<div style="margin-top: 20px;">
+    <div class="shadow p-3 mb-5 bg-light rounded">
+        <h2>{{item.title}}</h2>
+        <div>
+            {{item.content}}
+        </div>
+        <div class="badge badge-info">Автор -> {{item.user.name}}</div>
+        <div class="badge badge-info">Дата -> {{item.created_date}}</div>
+        {% if current_user.is_authenticated and current_user == item.user %}
+        <div>
+            <a href="/add_news/{{ item.id }}" class="btn btn-warning" style="margin-top:10px">
+                Изменить
+            </a>
+            <a href="/news_delete/{{ item.id }}" class="btn btn-danger" style="margin-top:10px">
+                Удалить
+            </a>
+        </div>
+    {% endif %}
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% if current_user.is_authenticated %}
+    <a href="add_news" class="btn btn-secondary">Добавить новость</a>
+{% endif %}
+{% endblock %}
