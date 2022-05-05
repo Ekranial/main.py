@@ -8,7 +8,22 @@ from data.users import User
 from data.news import News
 from forms.user import RegisterForm, LoginForm, NewsForm
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user
+import PIL
+from PIL import Image
+import sqlite3
 import os
+import json
+
+
+#connection = sqlite3.connect("db/blogs.db")
+#cursor = connection.cursor()
+#_emails = cursor.execute(f"SELECT email FROM users").fetchall()
+#users = []
+#f = open("static/members.json", mode='w')
+#for i in _emails:
+#    users.append({"email": i[0], "img": "static/galery/default.jpg"})
+#f.write(json.dumps(users))
+#f.close()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
@@ -31,15 +46,40 @@ def news():
         news = db_sess.query(News).filter(News.is_private != True)
     return render_template("index.html", news=news)
 
-@app.route("/profile")
+@app.route("/profile", methods=['POST', 'GET'])
 def profile():
-    db_sess = db_session.create_session()
-    if current_user.is_authenticated:
+    if request.method == 'GET':
+        db_sess = db_session.create_session()
+        if current_user.is_authenticated:
+            email = str(current_user).split()[-1]
+            user = db_sess.query(User).filter(User.email == email).first()
+            f = open("static/members.json")
+            data = json.loads(f.read())
+            for i in data:
+                if i["email"] == email:
+                    img = i["img"]
+        else:
+            news = db_sess.query(News).filter(News.is_private != True)
+        return render_template("profile.html", user=user, img=img)
+    elif request.method == 'POST':
         email = str(current_user).split()[-1]
+        db_sess = db_session.create_session()
         user = db_sess.query(User).filter(User.email == email).first()
-    else:
-        news = db_sess.query(News).filter(News.is_private != True)
-    return render_template("profile.html", user=user)
+        file = request.files['file']
+        if file:
+            picture = Image.open(file)
+            picture = picture.save(f"static/galery/{email}.jpg")
+            file = open("static/members.json")
+            data = json.loads(file.read())
+            file.close()
+            for i in data:
+                if i["email"] == email:
+                    i["img"] = f"static/galery/{email}.jpg"
+                    img = i["img"]
+            file = open("static/members.json", mode='w')
+            file.write(json.dumps(data))
+            file.close()
+        return render_template("profile.html", user=user, img=img)
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -142,6 +182,13 @@ def reqister():
         user.set_password(form.password.data)
         db_sess.add(user)
         db_sess.commit()
+        f = open("static/members.json", mode="r")
+        data = json.loads(f.read())
+        f.close()
+        data.append({"email": user.email, "img": "static/galery/default.jpg"})
+        f = open("static/members.json", mode="w")
+        f.write(json.dumps(data))
+        f.close()
         return redirect('/login')
     return render_template('register.html', title='Регистрация', form=form)
 

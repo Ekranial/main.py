@@ -5,10 +5,27 @@
 <div class="alert alert-secondary" style="margin-left: 20px; margin-bottom: 0px; margin-top: 20px; !important;">
     <div class="badge badge-info" style="margin-top: 20px">Аватарка</div>
     <div style="margin-top: 0px">
-    <br><img src=/static/img/smile.png class="round_office"
-         align="center" width="50" height="50"/></br></div>
-    <div class="badge badge-info" style="margin-top: 20px">Ник -> {{user.name}}</div></br>
-    <div class="badge badge-info" style="margin-top: 20px">О себе -> {{user.about}}</div></br>
+        <br><img src=/{{img}} class="round_office"
+                 align="center" width="50" height="50"/></br></div>
+    <form class="add_form" method="post" enctype="multipart/form-data" style="max-width: 450px;
+                                                                                background-color: #FFFFFF;
+                                                                                border: 1px solid gray;
+                                                                                border-radius: 5px;
+                                                                                padding: 10px;
+                                                                                margin-top: 10px;
+                                                                                margin-left: 0px;
+                                                                                margin-bottom: 50px">
+        <div class="form-group">
+            <label for="photo">Приложите фотографию</label>
+            <input type="file" class="form-control-file" id="photo" name="file">
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Отправить</button>
+    </form>
+    <div class="badge badge-info" style="margin-top: 20px">Ник -> {{user.name}}</div>
+    </br>
+    <div class="badge badge-info" style="margin-top: 20px">О себе -> {{user.about}}</div>
+    </br>
     <div class="badge badge-info" style="margin-top: 20px">E-mail -> {{user.email}}</div>
 </div>
 {% endblock %}
